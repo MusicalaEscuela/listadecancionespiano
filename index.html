@@ -3,328 +3,233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Canciones</title>
+    <title>Musicala - Canciones para Violín</title>
     <style>
         /* Estilos generales */
         body {
             font-family: 'Roboto', Arial, sans-serif;
-            background-color: #F4F4F4;
             margin: 0;
             padding: 0;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        .header {
-            background: #3949AB;
-            color: white;
+            background-color: #f2f2f2;
             text-align: center;
-            padding: 20px;
-        }
-
-        .header h1 {
-            margin: 0;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 20px auto;
             padding: 20px;
-            background: white;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-
-        .search-container,
-        .category-filter {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .search-container input,
-        .category-filter select {
-            padding: 12px;
-            font-size: 18px;
-            border: 1px solid #CCC;
-            border-radius: 5px;
-            width: 100%;
-            max-width: 800px;
-        }
-
-        .search-container button {
-            padding: 12px 20px;
-            background: #3949AB;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-left: 10px;
-            transition: background 0.3s;
-        }
-
-        .search-container button:hover {
-            background: #1E88E5;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th, td {
-            border: 1px solid #CCC;
-            padding: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
             text-align: left;
         }
 
-        th {
-            background: #3949AB;
-            color: white;
-            cursor: pointer;
-            position: relative; /* Para posicionar la flecha */
+        /* Encabezado con logo */
+        header {
+            position: relative;
+            background-color: #ffffff;
+            padding: 10px 20px;
+            border-bottom: 2px solid #ddd;
         }
 
-        th .sort-icon {
-            font-size: 12px;
-            margin-left: 5px;
+        header img {
             position: absolute;
-            right: 10px; /* Ajusta el espaciado entre la flecha y el texto */
+            top: 10px;
+            right: 20px;
+            max-width: 120px;
+            height: auto;
         }
 
-        tr:nth-child(even) {
-            background: #F9F9F9;
-        }
-
-        tr:hover {
-            background: #DCE775;
-        }
-
-        .footer {
+        header h1 {
+            font-size: 36px;
+            color: #333333;
+            margin: 0;
             text-align: center;
-            font-size: 14px;
-            color: #777;
-            margin-top: 30px;
         }
 
-        /* Contador de resultados */
-        #resultCount {
+        /* Estilos para el campo de búsqueda y selector */
+        .filters {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        #searchInput, #columnSelect {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        /* Estilos de la tabla */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            table-layout: auto;
+        }
+
+        th, td {
+            padding: 10px;
             text-align: center;
-            margin-top: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: #ffffff;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        td a {
+            text-decoration: none;
+            color: #007BFF;
             font-weight: bold;
         }
 
-        /* Logo flotante */
-        .logo {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 100px;
-            height: auto;
-            cursor: pointer;
-            z-index: 1000;
+        td a:hover {
+            text-decoration: underline;
+        }
+
+        /* Pie de página */
+        footer {
+            font-size: 12px;
+            color: #555555;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 5px 0;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>🎵 Lista de Canciones para Piano 🎹</h1>
-    </div>
 
+    <!-- Encabezado -->
+    <header>
+        <h1>Musicala - Lista de canciones para Violín</h1>
+        <img src="https://static.wixstatic.com/media/85afce_3adb3865c88a492b93a8bf2dc69049c3~mv2.png" alt="Logo Musicala">
+    </header>
+
+    <!-- Contenedor principal -->
     <div class="container">
-        <!-- Buscador -->
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Buscar por nombre, artista o género..." onkeyup="handleKeyUp(event)">
-            <button onclick="filterSongs()">Buscar</button>
+        <!-- Filtros: Búsqueda y Selector -->
+        <div class="filters">
+            <input type="text" id="searchInput" placeholder="Buscar en la tabla...">
+            <div>
+                <label for="columnSelect">Seleccionar formato:</label>
+                <select id="columnSelect">
+                    <option value="G">Colores</option>
+                    <option value="H">Números</option>
+                    <option value="I">Notas</option>
+                    <option value="J">Partitura (melodía)</option>
+                    <option value="K">Partitura (cifrado y melodía)</option>
+                    <option value="L">Partitura (Nivel 1 Acompañamiento)</option>
+                    <option value="M">Partitura (Nivel 2 Acompañamiento)</option>
+                    <option value="N">Partitura (Nivel 3 Acompañamiento)</option>
+                    <option value="O">Cifrado/Acordes</option>
+                    <option value="O">Video Tutorial</option>
+                </select>
+            </div>
         </div>
 
-        <!-- Selector de género -->
-        <div class="category-filter">
-            <label for="genreSelect">Filtrar por género:</label>
-            <select id="genreSelect" onchange="filterSongs()">
-                <option value="">Todos los géneros</option>
-            </select>
-        </div>
-
-        <!-- Contador de resultados -->
-        <div id="resultCount">Resultados: 0</div>
-
-        <!-- Tabla para mostrar las canciones -->
-        <table>
+        <!-- Tabla -->
+        <table id="csvTable">
             <thead>
-                <tr>
-                    <th onclick="sortTable('nombre')">Nombre de la canción<span class="sort-icon">▲</span></th>
-                    <th onclick="sortTable('artista')">Artista<span class="sort-icon">▲</span></th>
-                    <th onclick="sortTable('genero')">Género<span class="sort-icon">▲</span></th>
-                    <th onclick="sortTable('nivel')">Nivel<span class="sort-icon">▲</span></th>
-                    <th>Notas</th>
-                    <th>Video/Referencia</th>
-                </tr>
+                <tr id="headerRow"></tr>
             </thead>
-            <tbody id="songTableBody"></tbody>
+            <tbody id="tableBody"></tbody>
         </table>
     </div>
 
-    <!-- Logo flotante -->
-    <img class="logo" src="https://static.wixstatic.com/media/85afce_3adb3865c88a492b93a8bf2dc69049c3~mv2.png" alt="Logo Musicala">
-
-    <div class="footer">
-        © Lista de Canciones 2025. Todos los derechos reservados.
-    </div>
-
-    <!-- Cargar PapaParse desde CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <!-- Pie de página -->
+    <footer>
+        <p>© 2025 Musicala. Todos los derechos reservados.</p>
+    </footer>
 
     <script>
-        const googleSheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQCSexe6ZgBbSKrzyhCkq-64aLrsu6SWqVhhiuccf3EhoMHcP_oxBLdGyZWONcHl861LrX6ZltEu3O3/pub?gid=0&single=true&output=tsv';
+        async function cargarCSV() {
+            const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQCSexe6ZgBbSKrzyhCkq-64aLrsu6SWqVhhiuccf3EhoMHcP_oxBLdGyZWONcHl861LrX6ZltEu3O3/pub?output=csv";
+            const response = await fetch(url);
+            const data = await response.text();
+            const filas = data.split("\n").map(row => row.split(","));
 
-        let songs = [];
-        let filteredSongs = [];
-        let currentSort = { column: null, ascending: true }; // Estado actual del ordenamiento
+            const headerRow = document.getElementById("headerRow");
+            const tableBody = document.getElementById("tableBody");
 
-        async function loadSongs() {
-            try {
-                const response = await fetch(googleSheetURL);
-                const csvText = await response.text();
+            const columnasFijas = 6;
+            const columnaInicial = 6;
 
-                Papa.parse(csvText, {
-                    header: true,
-                    skipEmptyLines: true,
-                    complete: function(results) {
-                        songs = results.data.map(row => [
-                            row["Nombre de la canción"],
-                            row["Artista"],
-                            row["Género"],
-                            row["Nivel"],
-                            row["Notas"],
-                            row["Video/Referencia auditiva"]
-                        ]);
+            // Crear encabezados
+            for (let i = 0; i < columnasFijas; i++) {
+                let th = document.createElement("th");
+                th.textContent = filas[0][i];
+                headerRow.appendChild(th);
+            }
+            let thExtra = document.createElement("th");
+            thExtra.textContent = filas[0][columnaInicial];
+            thExtra.id = "extraHeader";
+            headerRow.appendChild(thExtra);
 
-                        filteredSongs = songs;
-
-                        populateGenreFilter();
-                        renderSongs();
+            // Función para cargar filas
+            function cargarFilas(columnaIndex) {
+                tableBody.innerHTML = ""; // Limpiar tabla
+                for (let i = 1; i < filas.length; i++) {
+                    let tr = document.createElement("tr");
+                    for (let j = 0; j < columnasFijas; j++) {
+                        let td = document.createElement("td");
+                        td.textContent = filas[i][j];
+                        tr.appendChild(td);
                     }
+                    let tdExtra = document.createElement("td");
+                    let contenidoExtra = filas[i][columnaIndex];
+                    if (contenidoExtra && contenidoExtra.startsWith("http")) {
+                        let link = document.createElement("a");
+                        link.href = contenidoExtra;
+                        link.textContent = "Ver";
+                        link.target = "_blank";
+                        tdExtra.appendChild(link);
+                    } else {
+                        tdExtra.textContent = contenidoExtra || "";
+                    }
+                    tr.appendChild(tdExtra);
+                    tableBody.appendChild(tr);
+                }
+            }
+
+            // Inicializar tabla con columna G por defecto
+            cargarFilas(columnaInicial);
+
+            // Evento para cambiar columna
+            const select = document.getElementById("columnSelect");
+            select.addEventListener("change", () => {
+                const columnaSeleccionada = select.value.charCodeAt(0) - 65; // Índice de columna
+                thExtra.textContent = filas[0][columnaSeleccionada];
+                cargarFilas(columnaSeleccionada);
+            });
+
+            // Campo de búsqueda
+            const searchInput = document.getElementById("searchInput");
+            searchInput.addEventListener("input", () => {
+                const filtro = searchInput.value.toLowerCase();
+                const filasTabla = tableBody.querySelectorAll("tr");
+                filasTabla.forEach(fila => {
+                    const textoFila = fila.textContent.toLowerCase();
+                    fila.style.display = textoFila.includes(filtro) ? "" : "none";
                 });
-            } catch (error) {
-                console.error('Error al cargar las canciones:', error);
-            }
-        }
-
-        function populateGenreFilter() {
-            const genreSelect = document.getElementById('genreSelect');
-            const uniqueGenres = [...new Set(songs.map(([ , , genero]) => genero))];
-
-            uniqueGenres.forEach(genero => {
-                const option = document.createElement('option');
-                option.value = genero;
-                option.textContent = genero;
-                genreSelect.appendChild(option);
             });
         }
 
-        function filterSongs() {
-            const searchInput = document.getElementById("searchInput").value.toLowerCase().trim();
-            const selectedGenre = document.getElementById("genreSelect").value;
-
-            filteredSongs = songs.filter(([nombre, artista, genero]) => {
-                const matchesText =
-                    nombre.toLowerCase().includes(searchInput) ||
-                    artista.toLowerCase().includes(searchInput) ||
-                    genero.toLowerCase().includes(searchInput);
-
-                const matchesGenre = selectedGenre === "" || genero === selectedGenre;
-
-                return matchesText && matchesGenre;
-            });
-
-            renderSongs();
-        }
-
-        function renderSongs() {
-            const tbody = document.getElementById('songTableBody');
-            const resultCount = document.getElementById('resultCount');
-            tbody.innerHTML = '';
-
-            filteredSongs.forEach(([nombre, artista, genero, nivel, notas, video]) => {
-                const notasContent = (notas && notas.startsWith('http'))
-                    ? `<a href="${notas}" target="_blank">Ver</a>`
-                    : notas || '-';
-                const videoContent = (video)
-                    ? `<a href="${video}" target="_blank">Ver</a>`
-                    : '-';
-
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${nombre}</td>
-                    <td>${artista}</td>
-                    <td>${genero}</td>
-                    <td>${nivel}</td>
-                    <td>${notasContent}</td>
-                    <td>${videoContent}</td>
-                `;
-                tbody.appendChild(tr);
-            });
-
-            resultCount.textContent = `Resultados: ${filteredSongs.length}`;
-            updateSortIcons();
-        }
-
-        function sortTable(column) {
-            const columnIndex = {
-                nombre: 0,
-                artista: 1,
-                genero: 2,
-                nivel: 3
-            }[column];
-
-            if (currentSort.column === column) {
-                currentSort.ascending = !currentSort.ascending; // Cambiar entre ascendente y descendente
-            } else {
-                currentSort = { column, ascending: true }; // Nueva columna, ascendente por defecto
-            }
-
-            filteredSongs.sort((a, b) => {
-                const valueA = a[columnIndex]?.toLowerCase() || '';
-                const valueB = b[columnIndex]?.toLowerCase() || '';
-
-                if (valueA < valueB) return currentSort.ascending ? -1 : 1;
-                if (valueA > valueB) return currentSort.ascending ? 1 : -1;
-                return 0;
-            });
-
-            renderSongs();
-        }
-
-        function updateSortIcons() {
-            const headers = document.querySelectorAll('th .sort-icon');
-            headers.forEach(icon => icon.textContent = '▲'); // Mostrar flechas ascendentes por defecto
-
-            if (currentSort.column) {
-                const columnIndex = {
-                    nombre: 0,
-                    artista: 1,
-                    genero: 2,
-                    nivel: 3
-                }[currentSort.column];
-
-                const header = document.querySelectorAll('th')[columnIndex];
-                const icon = header.querySelector('.sort-icon');
-                icon.textContent = currentSort.ascending ? '▲' : '▼';
-            }
-        }
-
-        function handleKeyUp(event) {
-            if (event.key === "Enter") {
-                filterSongs();
-            }
-        }
-
-        window.onload = loadSongs;
+        cargarCSV();
     </script>
 </body>
 </html>
