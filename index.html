@@ -1,237 +1,127 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Musicala - Canciones para Piano</title>
-    <style>
-        /* Estilos generales */
-        body {
-            font-family: 'Roboto', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f2f2f2;
-            text-align: center;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Musicala - Repertorio para Piano</title>
 
-        .container {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #ffffff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            text-align: left;
-        }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
 
-        /* Encabezado con logo */
-        header {
-            position: relative;
-            background-color: #ffffff;
-            padding: 10px 20px;
-            border-bottom: 2px solid #ddd;
-        }
-
-        header img {
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            max-width: 120px;
-            height: auto;
-        }
-
-        header h1 {
-            font-size: 36px;
-            color: #333333;
-            margin: 0;
-            text-align: center;
-        }
-
-        /* Estilos para el campo de búsqueda y selector */
-        .filters {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-bottom: 20px;
-            align-items: center;
-        }
-
-        #searchInput, #columnSelect {
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        /* Estilos de la tabla */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            background-color: #fff;
-            border-radius: 10px;
-            overflow: hidden;
-            table-layout: auto;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
-
-        th {
-            background-color: #007BFF;
-            color: #ffffff;
-            font-weight: bold;
-            white-space: nowrap;
-        }
-
-        td a {
-            text-decoration: none;
-            color: #007BFF;
-            font-weight: bold;
-        }
-
-        td a:hover {
-            text-decoration: underline;
-        }
-
-        /* Pie de página */
-        footer {
-            font-size: 12px;
-            color: #555555;
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        footer p {
-            margin: 5px 0;
-        }
-    </style>
+  <link rel="stylesheet" href="./styles.css" />
 </head>
+
 <body>
-
-    <!-- Encabezado -->
-    <header>
-        <h1>Musicala - Lista de canciones para Piano</h1>
-        <img src="https://static.wixstatic.com/media/85afce_3adb3865c88a492b93a8bf2dc69049c3~mv2.png" alt="Logo Musicala">
-    </header>
-
-    <!-- Contenedor principal -->
-    <div class="container">
-        <!-- Filtros: Búsqueda y Selector -->
-        <div class="filters">
-            <input type="text" id="searchInput" placeholder="Buscar en la tabla...">
-            <div>
-                <label for="columnSelect">Seleccionar formato:</label>
-                <select id="columnSelect">
-                    <option value="G">Colores</option>
-                    <option value="H">Números</option>
-                    <option value="I">Notas</option>
-                    <option value="J">Partitura (melodía)</option>
-                    <option value="K">Partitura (cifrado y melodía)</option>
-                    <option value="L">Partitura (Nivel 1 Acompañamiento)</option>
-                    <option value="M">Partitura (Nivel 2 Acompañamiento)</option>
-                    <option value="N">Partitura (Nivel 3 Acompañamiento)</option>
-                    <option value="O">Cifrado/Acordes</option>
-                    <option value="O">Video Tutorial</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- Tabla -->
-        <table id="csvTable">
-            <thead>
-                <tr id="headerRow"></tr>
-            </thead>
-            <tbody id="tableBody"></tbody>
-        </table>
+  <!-- Header -->
+  <header class="topbar">
+    <div class="topbar__left">
+      <img class="logo" src="./logo.png" alt="Logo Musicala">
+      <h1>Musicala - Repertorio para Piano</h1>
     </div>
 
-    <!-- Pie de página -->
-    <footer>
-        <p>© 2025 Musicala. Todos los derechos reservados.</p>
-    </footer>
+    <div class="topbar__right">
+      <button class="seg active" id="viewCardsBtn" type="button">Tarjetas</button>
+      <button class="seg" id="viewTableBtn" type="button">Tabla</button>
+    </div>
+  </header>
 
-    <script>
-        async function cargarCSV() {
-            const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQCSexe6ZgBbSKrzyhCkq-64aLrsu6SWqVhhiuccf3EhoMHcP_oxBLdGyZWONcHl861LrX6ZltEu3O3/pub?output=csv";
-            const response = await fetch(url);
-            const data = await response.text();
-            const filas = data.split("\n").map(row => row.split(","));
+  <!-- Main -->
+  <div class="container">
+    <!-- Controls -->
+    <div class="controls">
+      <div class="search">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Buscar en el repertorio… (ej: fur elise, villancicos, carol of the bells, titanic)"
+        >
+        <button class="btn btn--ghost" id="clearBtn" type="button">Limpiar</button>
+      </div>
 
-            const headerRow = document.getElementById("headerRow");
-            const tableBody = document.getElementById("tableBody");
+      <div class="control">
+        <label for="guideSelect">Guía</label>
+        <select id="guideSelect"></select>
+      </div>
 
-            const columnasFijas = 6;
-            const columnaInicial = 6;
+      <div class="control">
+        <label for="sortSelect">Orden</label>
+        <select id="sortSelect">
+          <option value="name-asc">Nombre (A → Z)</option>
+          <option value="name-desc">Nombre (Z → A)</option>
+          <option value="level-asc">Nivel (bajo → alto)</option>
+          <option value="level-desc">Nivel (alto → bajo)</option>
+          <option value="genre-asc">Género (A → Z)</option>
+        </select>
+      </div>
 
-            // Crear encabezados
-            for (let i = 0; i < columnasFijas; i++) {
-                let th = document.createElement("th");
-                th.textContent = filas[0][i];
-                headerRow.appendChild(th);
-            }
-            let thExtra = document.createElement("th");
-            thExtra.textContent = filas[0][columnaInicial];
-            thExtra.id = "extraHeader";
-            headerRow.appendChild(thExtra);
+      <div class="control">
+        <label for="levelMin">Nivel mínimo</label>
+        <select id="levelMin">
+          <option value="0">⭐ 0+</option>
+          <option value="1">⭐ 1+</option>
+          <option value="2">⭐ 2+</option>
+          <option value="3">⭐ 3+</option>
+          <option value="4">⭐ 4+</option>
+          <option value="5">⭐ 5</option>
+        </select>
+      </div>
 
-            // Función para cargar filas
-            function cargarFilas(columnaIndex) {
-                tableBody.innerHTML = ""; // Limpiar tabla
-                for (let i = 1; i < filas.length; i++) {
-                    let tr = document.createElement("tr");
-                    for (let j = 0; j < columnasFijas; j++) {
-                        let td = document.createElement("td");
-                        td.textContent = filas[i][j];
-                        tr.appendChild(td);
-                    }
-                    let tdExtra = document.createElement("td");
-                    let contenidoExtra = filas[i][columnaIndex];
-                    if (contenidoExtra && contenidoExtra.startsWith("http")) {
-                        let link = document.createElement("a");
-                        link.href = contenidoExtra;
-                        link.textContent = "Ver";
-                        link.target = "_blank";
-                        tdExtra.appendChild(link);
-                    } else {
-                        tdExtra.textContent = contenidoExtra || "";
-                    }
-                    tr.appendChild(tdExtra);
-                    tableBody.appendChild(tr);
-                }
-            }
+      <div class="meta">
+        <span class="pill" id="countPill">Cargando…</span>
+        <span class="pill" id="progressPill">Progreso: 0 / 0</span>
+        <span class="status" id="statusLabel"></span>
+      </div>
+    </div>
 
-            // Inicializar tabla con columna G por defecto
-            cargarFilas(columnaInicial);
+    <!-- View: Cards -->
+    <section class="view" id="cardsView">
+      <div class="grid" id="cardsGrid"></div>
 
-            // Evento para cambiar columna
-            const select = document.getElementById("columnSelect");
-            select.addEventListener("change", () => {
-                const columnaSeleccionada = select.value.charCodeAt(0) - 65; // Índice de columna
-                thExtra.textContent = filas[0][columnaSeleccionada];
-                cargarFilas(columnaSeleccionada);
-            });
+      <div class="empty hidden" id="emptyCards">
+        <div class="empty__title">No hay resultados</div>
+        <div>Prueba con otra búsqueda o baja el filtro de nivel.</div>
+      </div>
+    </section>
 
-            // Campo de búsqueda
-            const searchInput = document.getElementById("searchInput");
-            searchInput.addEventListener("input", () => {
-                const filtro = searchInput.value.toLowerCase();
-                const filasTabla = tableBody.querySelectorAll("tr");
-                filasTabla.forEach(fila => {
-                    const textoFila = fila.textContent.toLowerCase();
-                    fila.style.display = textoFila.includes(filtro) ? "" : "none";
-                });
-            });
-        }
+    <!-- View: Table -->
+    <section class="view hidden" id="tableView">
+      <div class="table-wrapper">
+        <table id="csvTable">
+          <thead>
+            <tr id="headerRow"></tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
 
-        cargarCSV();
-    </script>
+      <div class="empty hidden" id="emptyTable">
+        <div class="empty__title">No hay filas para mostrar</div>
+        <div>La tabla también respeta búsqueda y nivel mínimo.</div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Modal -->
+  <div id="modalOverlay" class="modalOverlay hidden">
+    <div class="modal">
+      <div class="modal__head">
+        <div>
+          <div id="modalTitle" class="modal__title">—</div>
+          <div id="modalMeta" class="modal__meta">—</div>
+        </div>
+        <button class="iconBtn" id="modalClose" type="button" title="Cerrar">✕</button>
+      </div>
+
+      <pre id="modalContent" class="modal__content"></pre>
+      <div id="modalAction" class="modal__action"></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    © 2025 Musicala. Todos los derechos reservados.
+  </footer>
+
+  <script src="./app.js"></script>
 </body>
 </html>
-
-
