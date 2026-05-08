@@ -3,125 +3,321 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Musicala - Repertorio para Piano</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <title>Musicala · Repertorio para Piano</title>
+  <meta
+    name="description"
+    content="Repertorio de piano Musicala para estudiantes. Busca canciones, revisa guías y marca tu progreso."
+  />
+  <meta name="theme-color" content="#f6f6f6" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
 
   <link rel="stylesheet" href="./styles.css" />
 </head>
 
 <body>
-  <!-- Header -->
-  <header class="topbar">
-    <div class="topbar__left">
-      <img class="logo" src="./logo.png" alt="Logo Musicala">
-      <h1>Musicala - Repertorio para Piano</h1>
-    </div>
+  <div class="pageShell">
+    <!-- Header -->
+    <header class="topbar">
+      <div class="topbar__left">
+        <a class="brand" href="./" aria-label="Volver al inicio del repertorio Musicala">
+          <img class="logo" src="./logo.png" alt="Logo Musicala" />
+          <div class="brand__text">
+            <span class="brand__eyebrow">Musicala</span>
+            <h1>Repertorio para Piano</h1>
+          </div>
+        </a>
+      </div>
 
-    <div class="topbar__right">
-      <button class="seg active" id="viewCardsBtn" type="button">Tarjetas</button>
-      <button class="seg" id="viewTableBtn" type="button">Tabla</button>
-    </div>
-  </header>
-
-  <!-- Main -->
-  <div class="container">
-    <!-- Controls -->
-    <div class="controls">
-      <div class="search">
-        <input
-          type="text"
-          id="searchInput"
-          placeholder="Buscar en el repertorio… (ej: fur elise, villancicos, carol of the bells, titanic)"
+      <div class="topbar__right" aria-label="Cambiar vista">
+        <button
+          class="seg active"
+          id="viewCardsBtn"
+          type="button"
+          aria-pressed="true"
         >
-        <button class="btn btn--ghost" id="clearBtn" type="button">Limpiar</button>
+          Tarjetas
+        </button>
+
+        <button
+          class="seg"
+          id="viewTableBtn"
+          type="button"
+          aria-pressed="false"
+        >
+          Tabla
+        </button>
       </div>
+    </header>
 
-      <div class="control">
-        <label for="guideSelect">Guía</label>
-        <select id="guideSelect"></select>
-      </div>
-
-      <div class="control">
-        <label for="sortSelect">Orden</label>
-        <select id="sortSelect">
-          <option value="name-asc">Nombre (A → Z)</option>
-          <option value="name-desc">Nombre (Z → A)</option>
-          <option value="level-asc">Nivel (bajo → alto)</option>
-          <option value="level-desc">Nivel (alto → bajo)</option>
-          <option value="genre-asc">Género (A → Z)</option>
-        </select>
-      </div>
-
-      <div class="control">
-        <label for="levelMin">Nivel mínimo</label>
-        <select id="levelMin">
-          <option value="0">⭐ 0+</option>
-          <option value="1">⭐ 1+</option>
-          <option value="2">⭐ 2+</option>
-          <option value="3">⭐ 3+</option>
-          <option value="4">⭐ 4+</option>
-          <option value="5">⭐ 5</option>
-        </select>
-      </div>
-
-      <div class="meta">
-        <span class="pill" id="countPill">Cargando…</span>
-        <span class="pill" id="progressPill">Progreso: 0 / 0</span>
-        <span class="status" id="statusLabel"></span>
-      </div>
-    </div>
-
-    <!-- View: Cards -->
-    <section class="view" id="cardsView">
-      <div class="grid" id="cardsGrid"></div>
-
-      <div class="empty hidden" id="emptyCards">
-        <div class="empty__title">No hay resultados</div>
-        <div>Prueba con otra búsqueda o baja el filtro de nivel.</div>
-      </div>
-    </section>
-
-    <!-- View: Table -->
-    <section class="view hidden" id="tableView">
-      <div class="table-wrapper">
-        <table id="csvTable">
-          <thead>
-            <tr id="headerRow"></tr>
-          </thead>
-          <tbody id="tableBody"></tbody>
-        </table>
-      </div>
-
-      <div class="empty hidden" id="emptyTable">
-        <div class="empty__title">No hay filas para mostrar</div>
-        <div>La tabla también respeta búsqueda y nivel mínimo.</div>
-      </div>
-    </section>
-  </div>
-
-  <!-- Modal -->
-  <div id="modalOverlay" class="modalOverlay hidden">
-    <div class="modal">
-      <div class="modal__head">
-        <div>
-          <div id="modalTitle" class="modal__title">—</div>
-          <div id="modalMeta" class="modal__meta">—</div>
+    <!-- Main -->
+    <main class="container">
+      <!-- Hero -->
+      <section class="hero" aria-labelledby="pageTitle">
+        <div class="hero__content">
+          <p class="hero__label">Catálogo de estudio</p>
+          <h2 id="pageTitle">Encuentra tu canción y lleva tu proceso</h2>
+          <p class="hero__description">
+            Busca por nombre, artista, género, tonalidad o nivel. Tu progreso se guarda en este dispositivo.
+          </p>
         </div>
-        <button class="iconBtn" id="modalClose" type="button" title="Cerrar">✕</button>
-      </div>
 
-      <pre id="modalContent" class="modal__content"></pre>
-      <div id="modalAction" class="modal__action"></div>
+        <div class="hero__stats" aria-label="Resumen del repertorio">
+          <span class="pill pill--strong" id="countPill">Cargando…</span>
+          <span class="pill" id="progressPill">Progreso: 0 / 0</span>
+          <span class="status" id="statusLabel" aria-live="polite"></span>
+        </div>
+      </section>
+
+      <!-- Controls -->
+      <section class="controls" aria-label="Controles del repertorio">
+        <!-- Search -->
+        <div class="searchBlock">
+          <label class="searchBlock__label" for="searchInput">
+            Buscar canción
+          </label>
+
+          <div class="search">
+            <span class="search__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path
+                  d="M10.8 18.1a7.2 7.2 0 1 1 5.1-12.3 7.2 7.2 0 0 1-5.1 12.3Zm0-2a5.2 5.2 0 1 0 0-10.4 5.2 5.2 0 0 0 0 10.4Zm10 5.2-5.1-5.1 1.4-1.4 5.1 5.1-1.4 1.4Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </span>
+
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Busca por canción, artista, género o tonalidad…"
+              autocomplete="off"
+              spellcheck="false"
+              enterkeyhint="search"
+              aria-describedby="searchHelp"
+            />
+
+            <button
+              class="search__clear"
+              id="clearBtn"
+              type="button"
+              aria-label="Limpiar búsqueda"
+              title="Limpiar búsqueda"
+              hidden
+            >
+              ✕
+            </button>
+          </div>
+
+          <p class="searchBlock__help" id="searchHelp">
+            Los resultados aparecen mientras escribes. Presiona Enter para abrir el primer resultado.
+          </p>
+        </div>
+
+        <!-- Quick filters -->
+        <div class="quickFilters" aria-label="Filtros rápidos">
+          <button
+            class="chip active"
+            id="filterAllBtn"
+            type="button"
+            data-progress-filter="all"
+            aria-pressed="true"
+          >
+            Todas
+          </button>
+
+          <button
+            class="chip"
+            id="filterInProgressBtn"
+            type="button"
+            data-progress-filter="in-progress"
+            aria-pressed="false"
+          >
+            En proceso
+          </button>
+
+          <button
+            class="chip"
+            id="filterDoneBtn"
+            type="button"
+            data-progress-filter="done"
+            aria-pressed="false"
+          >
+            Logradas
+          </button>
+
+          <button
+            class="chip"
+            id="filterFavoritesBtn"
+            type="button"
+            data-progress-filter="favorites"
+            aria-pressed="false"
+          >
+            Favoritas
+          </button>
+        </div>
+
+        <!-- Advanced controls -->
+        <div class="controlsGrid">
+          <div class="control">
+            <label for="guideSelect">Guía</label>
+            <select id="guideSelect" aria-label="Filtrar por guía"></select>
+          </div>
+
+          <div class="control">
+            <label for="sortSelect">Orden</label>
+            <select id="sortSelect" aria-label="Ordenar repertorio">
+              <option value="name-asc">Nombre A → Z</option>
+              <option value="name-desc">Nombre Z → A</option>
+              <option value="level-asc">Nivel bajo → alto</option>
+              <option value="level-desc">Nivel alto → bajo</option>
+              <option value="genre-asc">Género A → Z</option>
+            </select>
+          </div>
+
+          <div class="control">
+            <label for="levelMin">Nivel mínimo</label>
+            <select id="levelMin" aria-label="Filtrar por nivel mínimo">
+              <option value="0">⭐ 0+</option>
+              <option value="1">⭐ 1+</option>
+              <option value="2">⭐ 2+</option>
+              <option value="3">⭐ 3+</option>
+              <option value="4">⭐ 4+</option>
+              <option value="5">⭐ 5</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recently viewed -->
+      <section
+        class="recentSection hidden"
+        id="recentSection"
+        aria-labelledby="recentTitle"
+      >
+        <div class="sectionHead">
+          <div>
+            <p class="sectionHead__label">Tu práctica</p>
+            <h3 id="recentTitle">Vistas recientemente</h3>
+          </div>
+
+          <button
+            class="btn btn--ghost"
+            id="clearRecentBtn"
+            type="button"
+          >
+            Limpiar recientes
+          </button>
+        </div>
+
+        <div class="recentList" id="recentList"></div>
+      </section>
+
+      <!-- View: Cards -->
+      <section class="view" id="cardsView" aria-labelledby="cardsTitle">
+        <div class="sectionHead sectionHead--compact">
+          <div>
+            <p class="sectionHead__label">Repertorio</p>
+            <h3 id="cardsTitle">Canciones disponibles</h3>
+          </div>
+        </div>
+
+        <div class="grid" id="cardsGrid"></div>
+
+        <div class="empty hidden" id="emptyCards">
+          <div class="empty__icon" aria-hidden="true">⌕</div>
+          <div class="empty__title">No encontramos esa canción</div>
+          <p>
+            Revisa si está escrita distinto o prueba buscando por artista, género, tonalidad o nivel.
+          </p>
+
+          <button class="btn btn--primary" id="emptyResetBtn" type="button">
+            Ver todo el repertorio
+          </button>
+        </div>
+      </section>
+
+      <!-- View: Table -->
+      <section class="view hidden" id="tableView" aria-labelledby="tableTitle">
+        <div class="sectionHead sectionHead--compact">
+          <div>
+            <p class="sectionHead__label">Vista avanzada</p>
+            <h3 id="tableTitle">Tabla del repertorio</h3>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table id="csvTable">
+            <thead>
+              <tr id="headerRow"></tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="empty hidden" id="emptyTable">
+          <div class="empty__icon" aria-hidden="true">⌕</div>
+          <div class="empty__title">No hay filas para mostrar</div>
+          <p>
+            La tabla también respeta búsqueda, guía, progreso y nivel mínimo.
+          </p>
+
+          <button class="btn btn--primary" id="emptyTableResetBtn" type="button">
+            Ver todo el repertorio
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Modal -->
+    <div
+      id="modalOverlay"
+      class="modalOverlay hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+    >
+      <div class="modal" role="document">
+        <div class="modal__head">
+          <div class="modal__intro">
+            <div id="modalTitle" class="modal__title">—</div>
+            <div id="modalMeta" class="modal__meta">—</div>
+          </div>
+
+          <button
+            class="iconBtn"
+            id="modalClose"
+            type="button"
+            aria-label="Cerrar ventana"
+            title="Cerrar"
+          >
+            ✕
+          </button>
+        </div>
+
+        <pre id="modalContent" class="modal__content"></pre>
+        <div id="modalAction" class="modal__action"></div>
+      </div>
     </div>
+
+    <footer class="footer">
+      <span>© 2026 Musicala.</span>
+      <span>Repertorio de piano para estudiantes.</span>
+    </footer>
   </div>
 
-  <footer class="footer">
-    © 2025 Musicala. Todos los derechos reservados.
-  </footer>
+  <noscript>
+    <div class="noscript">
+      Para usar este repertorio necesitas activar JavaScript. Sí, qué sorpresa, una app web necesitando JavaScript.
+    </div>
+  </noscript>
 
-  <script src="./app.js"></script>
+  <script src="./app.js" defer></script>
 </body>
 </html>
